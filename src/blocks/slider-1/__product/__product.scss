@@ -1,0 +1,48 @@
+.slider-1__product {
+    position: absolute;
+    width: 27.8rem;
+    height: 13.5rem;
+    bottom: 10.7rem;
+    right: 4rem;
+    transform: translate(0,0);
+    z-index: 15;
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(14.6565px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 2.2rem 2.5rem 2.5rem;
+    text-align: start;
+    display: none;
+
+    & img {
+        width: 1.4rem;
+        height: 1.2rem;
+        margin-left: 8.5rem;
+        margin-right: 0;
+    }
+}
+
+@media only screen and (min-width: 62.5em) and (max-width: 76.875em) {
+    .slider-1__product {
+        right: 11.5rem;
+    }
+}
+
+@media only screen and (min-width: 37em) and (max-width: 62.49em) {
+    .slider-1__product {
+        width: 20.6rem;
+        height: 9.8rem;
+        bottom: 26.2rem;
+        right: 2.6rem;
+        padding: 1.1rem 2.3rem 2.1rem;
+        & img {
+            margin-left: 5rem;
+        }
+    }
+}
+
+@media only screen and (min-width: 37em) and (max-width: 42.99em) {
+    .slider-1__product {
+        right: 5.2rem;
+    }
+}
+

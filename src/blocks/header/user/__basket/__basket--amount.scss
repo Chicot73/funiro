@@ -1,0 +1,26 @@
+.user__basket--amount {
+    display: block;
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    transform: translate(-0.5rem,0.5rem);
+    @include font (700, 1.1rem, 150%);
+    letter-spacing: 0.03em;
+    @include white;
+    @include green-bg;
+    text-align: center;
+    padding-top: .2rem;
+    border-radius: 50%;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+@media only screen and (max-width: 36.99em) {
+    .user__basket--amount {
+        width: 2.6rem;
+        height: 2.6rem;
+        @include font (700, 1.6rem, 150%);
+    }
+}
