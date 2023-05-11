@@ -26,10 +26,6 @@ font-family: 'Gilroy';
     transform: translate(-50%,0);
 }
 
-@mixin white {
-    color: #FFFFFF;
-}
-
 @mixin gray-1 {
     color: #3A3A3A;
 }
@@ -42,8 +38,16 @@ font-family: 'Gilroy';
     color: #898989;
 }
 
+@mixin gray-4 {
+    color: #B0B0B0;
+}
+
 @mixin gray-5-bg {
     background: #D8D8D8;
+}
+
+@mixin light-bg {
+    background: #F4F5F7;
 }
 
 @mixin gray-6 {
@@ -62,12 +66,24 @@ font-family: 'Gilroy';
     background: #2EC1AC;
 }
 
+@mixin red-bg {
+    background: #E97171;
+}
+
+@mixin orange {
+    color: #E89F71;
+}
+
 @mixin orange-bg {
     background: #E89F71;
 }
 
 @mixin light-orange-bg {
     background: #FFEADC;
+}
+
+@mixin white {
+    color: #FFFFFF;
 }
 
 @mixin white-bg {
