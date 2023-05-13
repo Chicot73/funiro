@@ -2,7 +2,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     //slider-1
     
-    const swiper = new Swiper('.slider-1', {
+    const slider = new Swiper('.slider-1', {
         loop: true,
         slidesPerView: 'auto',
         //freeMode: false,
@@ -18,8 +18,38 @@ window.addEventListener('DOMContentLoaded', () => {
         pagination: {
             el: '.swiper-pagination',
             type: 'bullets',
-            clickable: true,
+            clickable: true
         },
+    });
+
+
+    //slider-2
+    
+    const slider2 = new Swiper('.slider-2', {
+        loop: true,
+        slidesPerView: 'auto',
+        //freeMode: false,
+        initialSlide: 0,
+        loopedSlides: 3,
+        spaceBetween: 23,
+        centeredSlides: true,
+        grabCursor: true,
+        navigation: {
+            nextEl: '.slider-2__next',
+          },
+        pagination: {
+            el: '.swiper-pagination',
+            type: 'bullets',
+            clickable: true
+        },
+        breakpoints: {
+            10: {
+                spaceBetween: 19,
+            },
+            592: {
+                spaceBetween: 23,
+            },
+        }
     });
 
     
