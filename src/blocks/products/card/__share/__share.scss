@@ -9,3 +9,9 @@
     background-size: 1.7rem;
     cursor: pointer;
 }
+
+@media only screen and (min-width: 62.5em) and (max-width: 76.875em) {
+    .card__share {
+        margin-bottom: .8rem;
+    }
+}

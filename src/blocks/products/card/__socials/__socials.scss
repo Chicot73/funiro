@@ -2,3 +2,10 @@
     @include vert-c;
     padding: 0 1.1rem;
 }
+
+@media only screen and (min-width: 62.5em) and (max-width: 76.875em) {
+    .card__socials {
+        display: block;
+        padding-left: 2.7rem;
+    }
+}
