@@ -52,6 +52,54 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
+    //slider-3
+    
+    const slider3 = new Swiper('.slider-3', {
+        loop: true,
+        slidesPerView: 'auto',
+        //freeMode: false,
+        initialSlide: 2,
+        loopedSlides: 2,
+        spaceBetween: 32,
+        centeredSlides: true,
+        grabCursor: true,
+        navigation: {
+            nextEl: '.essays__next',
+            prevEl: '.essays__prev',
+          },
+        breakpoints: {
+            10: {
+                spaceBetween: 22,
+            },
+            592: {
+                spaceBetween: 32,
+            },
+        }
+    });
+
+
+    //slider-4
+    
+    const slider4 = new Swiper('.slider-4', {
+        loop: false,
+        slidesPerView: 'auto',
+        freeMode: true,
+        initialSlide: 2,
+        loopedSlides: 2,
+        spaceBetween: 20,
+        centeredSlides: true,
+        grabCursor: true,
+        breakpoints: {
+            10: {
+                spaceBetween: 15,
+            },
+            592: {
+                spaceBetween: 20,
+            },
+        }
+    });
+
     
 
     //mobile menu
