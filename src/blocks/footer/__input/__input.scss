@@ -1,0 +1,33 @@
+.footer__input {
+    margin-top: .8rem;
+    @include font (400, 1.6rem, 150%);
+    @include gray-3;
+    padding-top: 1rem;
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+    padding: 1rem 1.2rem;
+    @include light-bg;
+    width: 100%;
+    height: 4.5rem;
+    margin-right: 5.4rem;
+    cursor: text;
+    border-right: 0.4rem solid white;
+
+    &:active {
+        @include gray-2;
+    }
+}
+
+@media only screen and (min-width: 37em) and (max-width: 62.49em) {
+    .footer__input {
+        margin-top: 0;
+    }
+}
+
+@media only screen and (max-width: 36.99em) {
+    .footer__input {
+        margin-top: 0;
+        @include font (400, 1.8rem, 150%);
+        height: 4.7rem;
+    }
+}    
