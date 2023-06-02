@@ -1,0 +1,13 @@
+.basket__buy {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 23.5rem;
+    height: 5.7rem;
+    @include orange-bg;
+    @include white;
+    text-align: center;
+    padding-top: 1.4rem;
+    @include font (600, 1.7rem, 153%);
+    cursor: pointer;
+}

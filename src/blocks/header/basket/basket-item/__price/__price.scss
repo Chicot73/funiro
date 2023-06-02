@@ -1,0 +1,8 @@
+.basket-item__price {
+    width: 50%;
+    @include font (600, 1.9rem, 100%);
+    @include gray-1;
+    letter-spacing: .01em;
+    padding-left: 2rem;
+}
+

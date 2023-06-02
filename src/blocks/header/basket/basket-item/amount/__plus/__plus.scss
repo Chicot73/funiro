@@ -1,0 +1,15 @@
+.amountt__plus {
+    width: 1.9rem;
+    height: 1.9rem;
+    @include font (700, 1.8rem, 90%);
+    @include white;
+    @include gray-5-bg;
+    border-radius: 50%;
+    padding-left: auto;
+    padding-right: auto;
+    padding-top: .05rem;
+    margin-left: 1.1rem;
+    &:active {
+        @include green-bg;
+    }
+}

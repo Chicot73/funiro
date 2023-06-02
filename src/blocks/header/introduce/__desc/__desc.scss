@@ -1,8 +1,8 @@
 .introduce__desc {
-    @include font (500, 1.9rem, 150%);
+    @include font (500, 1.8rem, 150%);
     letter-spacing: -0.01em;
     @include gray-3;
-    margin-bottom: 4.4rem;
+    margin-bottom: 3.7rem;
 }
 
 @media only screen and (min-width: 37em) and (max-width: 62.49em) {

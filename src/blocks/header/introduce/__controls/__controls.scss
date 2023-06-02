@@ -1,12 +1,12 @@
 .introduce__controls {
     position: absolute;
-    top: 9.8rem;
-    left: 50%;
-    transform: translate(-50%,0);
+    top: 8.8rem;
+    left: 0;
+    transform: translate(0,0);
     z-index: 10;
-    @include vert-c;
+    display: block;
     align-items: flex-start;
-    width: 100%;
+    user-select: none;
 }
 
 @media only screen and (min-width: 37em) and (max-width: 62.49em) {

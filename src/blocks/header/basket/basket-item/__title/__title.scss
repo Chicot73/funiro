@@ -1,0 +1,6 @@
+.basket-item__title {
+    @include font (600, 1.8rem, 120%);
+    @include gray-1;
+    letter-spacing: .01em;
+}
+

@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+*::before, *::after {
+  box-sizing: border-box;
+}
+
 html, body {
   font-size: 10px; 
   // font-size: 0.520835vw; // на разрешении 1920 0.520835vw === 10px

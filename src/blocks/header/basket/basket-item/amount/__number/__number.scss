@@ -1,0 +1,4 @@
+.amount__number {
+    @include font (600, 1.7rem, 120%);
+    @include gray-3;
+}

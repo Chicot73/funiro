@@ -1,0 +1,8 @@
+.basket__cross {
+    display: block;
+    width: 1.7rem;
+    height: 1.6rem;
+    flex-shrink: 0;
+    @include white-bg;
+    cursor: pointer;
+}

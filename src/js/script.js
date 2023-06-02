@@ -148,4 +148,30 @@ window.addEventListener('DOMContentLoaded', () => {
         }; 
     });
 
+
+    //Калькулятор корзины
+
+    /* let basket_price = 0,
+    basketBtn = document.querySelector('.card__basket'),
+    nameTrgt = document.querySelector('.card__title'),
+    priceTrgt = document.querySelector('.card__newprice'),
+    name = nameTrgt.textContent,
+    price = priceTrgt.textContent;
+
+    Basket = [];
+    basketBtn.forEach((name, price) => {
+        item.addEventListener('click', () => {
+            Basket.push({name, price});
+        });
+    });
+    function countBasketPrice() {
+        for (i=0; i<Basket.length; i++) { 
+            basket_price = basket_price + Basket[i].price;
+        }
+        return basket_price;
+    }
+    document.write('<h2>В корзине:</h2>');
+    for (i=0;i<Basket.length;i++){document.write(Basket[i].name + ' — ' + Basket[i].price +' руб</br>');}
+    document.write('</br><b>Стоимость заказа: '+countBasketPrice(Basket)+'</b>'); */
+
 });//начальная функция 
