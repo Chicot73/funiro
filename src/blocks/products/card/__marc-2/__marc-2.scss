@@ -11,4 +11,5 @@
     text-align: center;
     @include font (500, 1.6rem, 144%);
     @include white;
+    z-index: 100;
 }
