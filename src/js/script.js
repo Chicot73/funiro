@@ -159,7 +159,7 @@ window.addEventListener('DOMContentLoaded', () => {
        //Преобразует строку в число, убирая точки
 
     function toNum(str) {
-        const num = Number(str.replace(/\./gi, ""));
+        const num = Number(str.replace(/\./g, ""));
         return num;
     }
 
@@ -174,22 +174,21 @@ window.addEventListener('DOMContentLoaded', () => {
         return format;
     }
     
-       //Считываем все элементы корзины:
-
-    const cardAddArr = Array.from(document.querySelectorAll('.card__basket')); //кнопка добавить в корзину
-    const cartNum = document.querySelector("#cart_num"); //счетчик корзины
-    const cart = document.querySelector("#cart");  //кнопка корзины
+   
 
         //Считываем все элементы поп-апа:
 
     const basketBack = document.querySelector(".basket__back");
-    const basketClose = document.querySelector(".basket__cross");
+    const basketClose = document.querySelector("#basket_cross");
     const body = document.body;
-    const basketBlock = document.querySelector(".basket__block");
-    const basketItem = document.querySelector(".basket-item");
-    const basketPrice = document.querySelector(".final-price__price");
+    const basketBlock = document.querySelector("#basket_block");
+    const basketСontent = document.querySelector("#basket_content");
+    const basketPrice = document.querySelector("#final_price");
+
 
         //Обработчики кнопки открытия и закрытия корзины:
+
+    const cart = document.querySelector("#cart");  //кнопка корзины
     
     cart.addEventListener("click", (e) => {
         e.preventDefault();
@@ -218,8 +217,15 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+        //Считываем все элементы корзины:
+
+    const cardAddArr = Array.from(document.querySelectorAll(".card__basket")); //кнопка добавить в корзину
+    const cartNum = document.querySelector("#cart_num"); //счетчик корзины
+
+
+
         //Класс для корзины
-    
+
     class Cart {
         products;
         constructor() {
@@ -244,9 +250,9 @@ window.addEventListener('DOMContentLoaded', () => {
             return sum;
         }   
 
-            //Если нужно вычесть из цены скидку
+        /*     //Если нужно вычесть из цены скидку
 
-        /* get costDiscount() {
+        get costDiscount() {
             const prices = this.products.map((product) => {
                 return toNum(product.priceDiscount);
             });
@@ -294,7 +300,7 @@ window.addEventListener('DOMContentLoaded', () => {
         //Заполнение корзины
 
     function popupContainerFill() {
-        basketItem.innerHTML = null;
+        basketСontent.innerHTML = null;
         const savedCart = JSON.parse(localStorage.getItem("cart"));
         myCart.products = savedCart.products;
         const productsHTML = myCart.products.map((product) => {
@@ -325,8 +331,8 @@ window.addEventListener('DOMContentLoaded', () => {
           productPrice.innerHTML = toCurrency(toNum(product.price));
       
           const productDelete = document.createElement("button");
-          productDelete.classList.add("basket-item__delete");
-          productDelete.innerHTML = "✖";
+          productDelete.classList.add("basket-item__off");
+          productDelete.innerHTML = "&#10006;";
       
           productDelete.addEventListener("click", () => {
             myCart.removeProduct(product);
@@ -347,7 +353,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
       
         productsHTML.forEach((productHTML) => {
-            basketItem.appendChild(productHTML);
+            basketСontent.appendChild(productHTML);
         });
       
         basketPrice.value = toCurrency(myCart.cost);

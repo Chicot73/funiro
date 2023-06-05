@@ -186,38 +186,39 @@
         </section>
         <section class="basket">
             <div class="basket__back">
-                <div class="basket__block">
+                <div class="basket__block" id="basket_block">
                     <div class="basket__upper">
                         <h4 class="basket__title">My basket</h4>
-                        <button class="basket__cross">
+                        <button class="basket__cross" id="basket_cross">
                             <img loading="lazy" src="img/header/cross-gray.svg" alt="">
                         </button>
                     </div>
-                    <div class="basket-item">
-                        <div class="basket-item__left">
-                                <div class="basket-item__image">
-                                    <img loading="lazy" src="img/main/products/card_07-big.png" alt="">
-                                </div>
+                    <div class="basket-content" id="basket_content">
+                        <div class="basket-item">
+                            <div class="basket-item__left">
+                                <img class="basket-item__image" loading="lazy" src="img/main/products/card_07-big.png" alt="">
                                 <div class="basket-item__text">
                                     <h6 class="basket-item__title">Pingky</h6>
                                     <p class="basket-item__desc">Cute bed set</p>
                                 </div>
-                        </div>
-                        <div class="basket-item__right">
-                            <div class="amount">
-                                <button class="amount__minus">-</button>
-                                <div class="amount__word">amount&nbsp;&nbsp;</div>
-                                <span class="amount__number">1</span>
-                                <button class="amountt__plus">+</button>
                             </div>
-                            <div class="basket-item__price">Rp 7.000.000</div>
+                            <div class="basket-item__right">
+                                <!-- <div class="amount">
+                                    <button class="amount__minus">-</button>
+                                    <div class="amount__word">amount&nbsp;&nbsp;</div>
+                                    <span class="amount__number">1</span>
+                                    <button class="amountt__plus">+</button>
+                                </div> -->
+                                <div class="basket-item__price">Rp 7.000.000</div>
+                                <button class="basket-item__off">&#10006;</button>
+                            </div>
                         </div>
                     </div>
                     <div class="final-price">
                         <div class="final-price__pretext">You’ve&nbsp;
                             <span class="final-price__amount">2</span>
                             &nbsp;items&nbsp;for&nbsp;&nbsp;Rp
-                            <span class="final-price__price">14.000.000</span>
+                            <span class="final-price__price" id="final_price">14.000.000</span>
                         </div>
                     </div>
                     <a href="#" alt="buy button" class="basket__buy">Shop Now</a> 
