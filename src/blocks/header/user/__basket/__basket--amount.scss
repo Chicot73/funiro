@@ -1,7 +1,7 @@
 .user__basket--amount {
     display: block;
-    width: 2rem;
-    height: 2rem;
+    width: 1.9rem;
+    height: 1.9rem;
     position: absolute;
     top: -1rem;
     right: -1rem;
@@ -11,7 +11,7 @@
     @include white;
     @include green-bg;
     text-align: center;
-    padding-top: .2rem;
+    padding-top: .1rem;
     border-radius: 50%;
     z-index: 2;
     flex-shrink: 0;
