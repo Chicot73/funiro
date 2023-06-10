@@ -1,0 +1,38 @@
+basket__back - - popup
+
+basket__block - - id=popup_container
+
+   basket__upper  - -  popup__item
+
+      basket__title  - -  popup__title
+
+      basket__cross  - - id=popup_close
+
+   basket-content  - -  id=popup_product_list
+
+       basket-item  - -  popup__product
+
+         basket-item__left  - -  popup__product-wrap 
+   
+           img basket-item__image  - - img popup__product-image
+
+           basket-item__text       - -     ............
+
+              h6 basket-item__title  - - h2 popup__product-title
+
+	      p basket-item__desc    - -    ...........
+
+         basket-item__right  - -  popup__product-wrap
+   
+           basket-item__price  - - popup__product-price
+
+           basket-item__off  - - btn popup__product-delete
+
+    final-price  - -  popup__item
+
+	final-price__pretext   - -  popup__cost
+
+	   span id=final_price  - -  id=popup_cost
+
+
+

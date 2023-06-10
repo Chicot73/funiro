@@ -2,6 +2,7 @@
     @include font (700, 4.7rem, 120%);
     @include gray-1;
     margin-bottom: 2.4rem;
+    letter-spacing: -0.01em;
 }
 
 @media only screen and (min-width: 37em) and (max-width: 62.49em) {

@@ -159,7 +159,8 @@ window.addEventListener('DOMContentLoaded', () => {
        //Преобразует строку в число, убирая точки
 
     function toNum(str) {
-        const num = Number(str.replace(/\./g, ""));
+        //const num = Number(str.replace(/\./g, ""));
+        const num = Number(str.replace(/\D/g, ""));
         return num;
     }
 
@@ -172,56 +173,13 @@ window.addEventListener('DOMContentLoaded', () => {
           minimumFractionDigits: 0,
         }).format(num);
         return format;
-    }
+    } 
     
-   
-
-        //Считываем все элементы поп-апа:
-
-    const basketBack = document.querySelector(".basket__back");
-    const basketClose = document.querySelector("#basket_cross");
-    const body = document.body;
-    const basketBlock = document.querySelector("#basket_block");
-    const basketСontent = document.querySelector("#basket_content");
-    const basketPrice = document.querySelector("#final_price");
-
-
-        //Обработчики кнопки открытия и закрытия корзины:
-
-    const cart = document.querySelector("#cart");  //кнопка корзины
-    
-    cart.addEventListener("click", (e) => {
-        e.preventDefault();
-        basketBack.classList.add("active");
-        body.style.overflow = 'hidden';
-    });
-        
-    basketClose.addEventListener("click", (e) => {
-        e.preventDefault();
-        basketBack.classList.remove("active");
-        body.style.overflow = 'scroll';
-    });
-
-        //класс для одного товара
-    
-    class Product {
-        imageSrc;
-        name;
-        desc;
-        price;
-        constructor(card) {
-            this.imageSrc = card.querySelector(".card__image").children[0].src;
-            this.name = card.querySelector(".card__title").innerText;
-            this.desc = card.querySelector(".card__desc").innerText;
-            this.price = card.querySelector(".card__newprice").innerText;
-        }
-    }
-
         //Считываем все элементы корзины:
 
     const cardAddArr = Array.from(document.querySelectorAll(".card__basket")); //кнопка добавить в корзину
     const cartNum = document.querySelector("#cart_num"); //счетчик корзины
-
+    const cart = document.querySelector("#cart");  //кнопка корзины
 
 
         //Класс для корзины
@@ -266,6 +224,20 @@ window.addEventListener('DOMContentLoaded', () => {
         } */
     }
 
+        //класс для одного товара
+    
+    class Product {
+        imageSrc;
+        name;
+        desc;
+        price;
+        constructor(card) {
+            this.imageSrc = card.querySelector(".card__image").children[0].src;
+            this.name = card.querySelector(".card__title").innerText;
+            this.desc = card.querySelector(".card__desc").innerText;
+            this.price = card.querySelector(".card__newprice").innerText;
+        }
+    }
 
         //Создаем объект корзины и сохраняем его в localStorage
 
@@ -278,7 +250,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const savedCart = JSON.parse(localStorage.getItem("cart"));
     myCart.products = savedCart.products;
     cartNum.textContent = myCart.count;
-
 
 
         //Добавляем товар в корзину
@@ -296,10 +267,29 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+        //Считываем все элементы поп-апа:
+
+    const basketBack = document.querySelector(".basket__back");
+    const basketClose = document.querySelector("#basket_cross");
+    const body = document.body;
+    const basketСontent = document.querySelector("#basket_content");
+    const basketPrice = document.querySelector("#final_price");
+    const basketAmount = document.querySelector("#items_amount");
+    //const basketBlock = document.querySelector("#basket_block");
+
+
+        //Обработчики кнопки открытия и закрытия корзины:
+    
+    cart.addEventListener("click", (e) => {
+        e.preventDefault();
+        basketBack.classList.add("active");
+        body.style.overflow = 'hidden';
+        basketBlockFill();
+    });
 
         //Заполнение корзины
 
-    function popupContainerFill() {
+    function basketBlockFill() {
         basketСontent.innerHTML = null;
         const savedCart = JSON.parse(localStorage.getItem("cart"));
         myCart.products = savedCart.products;
@@ -337,7 +327,7 @@ window.addEventListener('DOMContentLoaded', () => {
           productDelete.addEventListener("click", () => {
             myCart.removeProduct(product);
             localStorage.setItem("cart", JSON.stringify(myCart));
-            popupContainerFill();
+            basketBlockFill();
           });
       
           productWrap1.appendChild(productImage);
@@ -355,9 +345,17 @@ window.addEventListener('DOMContentLoaded', () => {
         productsHTML.forEach((productHTML) => {
             basketСontent.appendChild(productHTML);
         });
-      
-        basketPrice.value = toCurrency(myCart.cost);
+
+        basketAmount.textContent = myCart.count;
+        basketPrice.textContent = toCurrency(myCart.cost);
+        //console.log(basketPrice.value);
     }
+
+    basketClose.addEventListener("click", (e) => {
+        e.preventDefault();
+        basketBack.classList.remove("active");
+        body.style.overflow = 'scroll';
+    });
 
     /* let cart = {
         '111': {
