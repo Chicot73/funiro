@@ -258,13 +258,28 @@ window.addEventListener('DOMContentLoaded', () => {
         cardAdd.addEventListener("click", (e) => {
           e.preventDefault();
           const card = e.target.closest(".card");
+          const cardBskt = e.target.closest(".card__basket");
           const product = new Product(card);
           const savedCart = JSON.parse(localStorage.getItem("cart"));
           myCart.products = savedCart.products;
           myCart.addProduct(product);
+          cardBskt.textContent = "Remove from the cart";
           localStorage.setItem("cart", JSON.stringify(myCart));
           cartNum.textContent = myCart.count;
         });
+    });
+    var isMenuShow = false;
+    showMenu.addEventListener("click", function() {
+        if (isMenuShow )
+    {
+        alert("Я убираю меню");
+        isMenuShow  = false;
+    }
+    else
+    {
+        alert("Я показываю меню");
+        isMenuShow  = true;
+    }
     });
 
         //Считываем все элементы поп-апа:
