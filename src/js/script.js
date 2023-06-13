@@ -198,6 +198,7 @@ window.addEventListener('DOMContentLoaded', () => {
         removeProduct(index) {
             this.products.splice(index, 1);
         }
+       
         get cost() {
             const prices = this.products.map((product) => {
                 return toNum(product.price);
@@ -253,34 +254,47 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
         //Добавляем товар в корзину
-
+    
     myCart.products = cardAddArr.forEach((cardAdd) => {
+        let itemRemove = false;
+        let itemAdded = false;
         cardAdd.addEventListener("click", (e) => {
-          e.preventDefault();
-          const card = e.target.closest(".card");
-          const cardBskt = e.target.closest(".card__basket");
-          const product = new Product(card);
-          const savedCart = JSON.parse(localStorage.getItem("cart"));
-          myCart.products = savedCart.products;
-          myCart.addProduct(product);
-          cardBskt.textContent = "Remove from the cart";
-          localStorage.setItem("cart", JSON.stringify(myCart));
-          cartNum.textContent = myCart.count;
-        });
+            e.preventDefault();
+            const card = e.target.closest(".card");
+            const cardBskt = e.target.closest(".card__basket");
+            const product = new Product(card);
+            const savedCart = JSON.parse(localStorage.getItem("cart"));
+            myCart.products = savedCart.products;
+            myCart.addProduct(product);
+            localStorage.setItem("cart", JSON.stringify(myCart));
+            cartNum.textContent = myCart.count;
+            
+            if (itemRemove) {
+                itemRemove = false; //дублирование нужно, чтобы отловить следующие клики. 
+                                    //Если ловятся только два клика - убрать эту строчку
+                cardBskt.textContent = "Add to cart";
+            }
+            else {
+                itemRemove = true;
+                cardBskt.textContent = "Already inside";
+                cardBskt.classList.add("added");
+                /* document.querySelector(".added").addEventListener("click", (e) => {
+                    e.preventDefault();
+                    myCart.removeProduct(product);
+                    localStorage.setItem("cart", JSON.stringify(myCart));
+                    cartNum.textContent = myCart.count;
+                    basketBlockFill();
+                }); */
+            };
+            if (cardBskt.classList.contains("added")) {
+                itemAdded = true;
+            } else {
+                itemAdded = false
+            }; 
+        //});
+        }, { once: true });
     });
-    var isMenuShow = false;
-    showMenu.addEventListener("click", function() {
-        if (isMenuShow )
-    {
-        alert("Я убираю меню");
-        isMenuShow  = false;
-    }
-    else
-    {
-        alert("Я показываю меню");
-        isMenuShow  = true;
-    }
-    });
+
 
         //Считываем все элементы поп-апа:
 
@@ -290,17 +304,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const basketСontent = document.querySelector("#basket_content");
     const basketPrice = document.querySelector("#final_price");
     const basketAmount = document.querySelector("#items_amount");
-    //const basketBlock = document.querySelector("#basket_block");
 
-
-        //Обработчики кнопки открытия и закрытия корзины:
-    
-    cart.addEventListener("click", (e) => {
-        e.preventDefault();
-        basketBack.classList.add("active");
-        body.style.overflow = 'hidden';
-        basketBlockFill();
-    });
 
         //Заполнение корзины
 
@@ -340,10 +344,19 @@ window.addEventListener('DOMContentLoaded', () => {
           productDelete.innerHTML = "&#10006;";
       
           productDelete.addEventListener("click", () => {
-            myCart.removeProduct(product);
-            localStorage.setItem("cart", JSON.stringify(myCart));
-            basketBlockFill();
+                myCart.removeProduct(product);
+                localStorage.setItem("cart", JSON.stringify(myCart));
+                cartNum.textContent = myCart.count;
+                basketBlockFill();
           });
+
+          /* const productAdded = document.querySelector(".added");
+          productAdded.addEventListener('click', () => {
+                myCart.removeProduct(product);
+                localStorage.setItem("cart", JSON.stringify(myCart));
+                basketBlockFill();
+          }); */
+        
       
           productWrap1.appendChild(productImage);
           productWrap1.appendChild(productWrap3);
@@ -363,13 +376,23 @@ window.addEventListener('DOMContentLoaded', () => {
 
         basketAmount.textContent = myCart.count;
         basketPrice.textContent = toCurrency(myCart.cost);
-        //console.log(basketPrice.value);
-    }
+    };
+
+
+    //Обработчики кнопки открытия и закрытия корзины:
+
+    cart.addEventListener("click", (e) => {
+        e.preventDefault();
+        basketBack.classList.add("active");
+        body.style.overflow = 'hidden';
+        basketBlockFill();
+    });
 
     basketClose.addEventListener("click", (e) => {
         e.preventDefault();
         basketBack.classList.remove("active");
         body.style.overflow = 'scroll';
+        location.reload(); //- перезагрузка страницы
     });
 
     /* let cart = {
