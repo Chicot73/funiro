@@ -195,8 +195,12 @@ window.addEventListener('DOMContentLoaded', () => {
         addProduct(product) {
             this.products.push(product);
         }
-        removeProduct(index) {
-            this.products.splice(index, 1);
+        removeProduct(product) {
+            const findIndex = this.products.indexOf(product);
+            if (findIndex !== -1) {
+                this.products.splice([findIndex], 1);
+            } 
+            //this.products.splice(index, 1);
         }
 
         
@@ -285,7 +289,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 myCart.addProduct(product);
                 localStorage.setItem("cart", JSON.stringify(myCart));
                 cartNum.textContent = myCart.count;
-                cardAdd.textContent = "Already inside";
+                cardAdd.textContent = "Remove from cart";
             }; 
         });
         //}, { once: true }); // если хочу отловить только первый клик
@@ -345,6 +349,7 @@ window.addEventListener('DOMContentLoaded', () => {
           const itemAmount = document.createElement("span");
           itemAmount.classList.add("amount__number");
           itemAmount.innerHTML = "1";
+          itemAmount.valie = "1";
 
           const itemPlus = document.createElement("button");
           itemPlus.classList.add("amount__plus");
@@ -363,6 +368,22 @@ window.addEventListener('DOMContentLoaded', () => {
                 localStorage.setItem("cart", JSON.stringify(myCart));
                 cartNum.textContent = myCart.count;
                 basketBlockFill();
+          });
+
+          itemMinus.addEventListener("click", () => {
+                if (itemAmount.valie-1 == 0) {
+                    myCart.removeProduct(product);
+                    localStorage.setItem("cart", JSON.stringify(myCart));
+                    cartNum.textContent = myCart.count;
+                    basketBlockFill();
+                };
+                itemAmount.valie--;
+                itemAmount.textContent = itemAmount.valie;
+          });
+
+          itemPlus.addEventListener("click", () => {
+                itemAmount.valie++;
+                itemAmount.textContent = itemAmount.valie;
           });
 
           /* const productAdded = document.querySelector(".added");
@@ -396,7 +417,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
         basketAmount.textContent = myCart.count;
         basketPrice.textContent = toCurrency(myCart.cost);
-        itemAmount.textContent = myCart.count;
     };
 
 
