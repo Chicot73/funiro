@@ -9,3 +9,13 @@
     box-shadow: 0px 22px 54px rgba(0, 0, 0, 0.38);
     overflow-y: auto;
 }
+
+@media only screen and (max-width: 44em) {
+    .basket__block {
+        width: 100%;
+        max-height: 100vh;
+        padding: 2.1rem 2rem 3.3rem;
+        margin-left: 0;
+        margin-right: 0;
+    }
+}

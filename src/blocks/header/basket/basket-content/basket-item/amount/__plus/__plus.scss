@@ -13,3 +13,13 @@
         @include green-bg;
     }
 }
+
+@media only screen and (max-width: 29.2em) {
+    .amount__plus {
+        width: 1.4rem;
+        height: 1.4rem;
+        @include font (700, 1.2rem, 90%);
+        flex-shrink: 0;
+        margin-left: 0.5rem;
+    }
+}

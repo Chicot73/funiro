@@ -202,18 +202,25 @@ window.addEventListener('DOMContentLoaded', () => {
             } 
             //this.products.splice(index, 1);
         }
-
-        
        
-        get cost() {
+        /* get cost() {
             const prices = this.products.map((product) => {
                 return toNum(product.price);
             });
             const sum = prices.reduce((acc, num) => {
                 return acc + num;
             }, 0);
-            return sum;
-        }   
+            return sum; 
+        }    */
+        get costFinal() {
+            const prices2 = this.products.map((product) => {
+                return toNum(product.finalprice);
+            });
+            const sum2 = prices2.reduce((acc, num) => {
+                return acc + num;
+            }, 0);
+            return sum2;
+        }
 
         /*     //Если нужно вычесть из цены скидку
 
@@ -238,13 +245,17 @@ window.addEventListener('DOMContentLoaded', () => {
         name;
         desc;
         price;
+        finalprice;
         id;
+        valie;
         constructor(card) {
             this.imageSrc = card.querySelector(".card__image").children[0].src;
             this.name = card.querySelector(".card__title").innerText;
             this.desc = card.querySelector(".card__desc").innerText;
             this.price = card.querySelector(".card__newprice").innerText;
+            this.finalprice = card.querySelector(".card__newprice").innerText;
             this.id = card.querySelector(".card__basket").dataset.id;
+            this.valie = 1;
         }
     };
 
@@ -263,7 +274,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         //Добавляем товар в корзину
     
-    myCart.products = cardAddArr.forEach((cardAdd, id) => {
+    myCart.products = cardAddArr.forEach((cardAdd) => {
 
         cardAdd.addEventListener("click", (e) => {
             e.preventDefault();
@@ -291,6 +302,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 cartNum.textContent = myCart.count;
                 cardAdd.textContent = "Remove from cart";
             }; 
+            if (myCart.removeProduct(product)) {
+                cardAdd.classList.remove("added");
+                cardAdd.textContent = "Add to cart";
+            }
         });
         //}, { once: true }); // если хочу отловить только первый клик
     });
@@ -348,16 +363,15 @@ window.addEventListener('DOMContentLoaded', () => {
 
           const itemAmount = document.createElement("span");
           itemAmount.classList.add("amount__number");
-          itemAmount.innerHTML = "1";
-          itemAmount.valie = "1";
+          itemAmount.innerHTML = product.valie;
 
           const itemPlus = document.createElement("button");
           itemPlus.classList.add("amount__plus");
           itemPlus.innerHTML = "&#43;";
       
-          const productPrice = document.createElement("div");
+          let productPrice = document.createElement("div");
           productPrice.classList.add("basket-item__price");
-          productPrice.innerHTML = toCurrency(toNum(product.price));
+          productPrice.innerHTML = toCurrency(toNum(product.finalprice));
       
           const productDelete = document.createElement("button");
           productDelete.classList.add("basket-item__off");
@@ -371,27 +385,32 @@ window.addEventListener('DOMContentLoaded', () => {
           });
 
           itemMinus.addEventListener("click", () => {
-                if (itemAmount.valie-1 == 0) {
+                if (product.valie-1 == 0) {
                     myCart.removeProduct(product);
                     localStorage.setItem("cart", JSON.stringify(myCart));
                     cartNum.textContent = myCart.count;
                     basketBlockFill();
                 };
-                itemAmount.valie--;
-                itemAmount.textContent = itemAmount.valie;
-          });
-
-          itemPlus.addEventListener("click", () => {
-                itemAmount.valie++;
-                itemAmount.textContent = itemAmount.valie;
-          });
-
-          /* const productAdded = document.querySelector(".added");
-          productAdded.addEventListener('click', () => {
-                myCart.removeProduct(product);
+                product.valie--;
+                itemAmount.textContent = String(product.valie);
+                ariphMinus = toNum(product.price);
+                productPrice.innerHTML = toCurrency(ariphMinus * product.valie);
+                product.finalprice = toCurrency(ariphMinus * product.valie);
+                basketPrice.textContent = toCurrency(myCart.costFinal);
                 localStorage.setItem("cart", JSON.stringify(myCart));
-                basketBlockFill();
-          }); */
+                cartNum.textContent = myCart.count;
+          });
+          
+          itemPlus.addEventListener("click", () => {
+                product.valie++;
+                itemAmount.textContent = String(product.valie);
+                ariphPlus = toNum(product.price);
+                productPrice.innerHTML = toCurrency(ariphPlus * product.valie);
+                product.finalprice = toCurrency(ariphPlus * product.valie);
+                basketPrice.textContent = toCurrency(myCart.costFinal);
+                localStorage.setItem("cart", JSON.stringify(myCart));
+                cartNum.textContent = myCart.count;
+          });
         
       
           productWrap1.appendChild(productImage);
@@ -414,11 +433,10 @@ window.addEventListener('DOMContentLoaded', () => {
         productsHTML.forEach((productHTML) => {
             basketСontent.appendChild(productHTML);
         });
-
+        //console.log(Array.from(Product));
         basketAmount.textContent = myCart.count;
-        basketPrice.textContent = toCurrency(myCart.cost);
+        basketPrice.textContent = toCurrency(myCart.costFinal);
     };
-
 
     //Обработчики кнопки открытия и закрытия корзины:
 
@@ -435,6 +453,8 @@ window.addEventListener('DOMContentLoaded', () => {
         body.style.overflow = 'scroll';
         //location.reload(); //- перезагрузка страницы
     });
+    
+
 
     /* let cart = {
         '111': {

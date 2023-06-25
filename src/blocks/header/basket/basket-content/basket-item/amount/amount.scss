@@ -1,6 +1,21 @@
 .amount {
-    width: auto;
+    width: 13.5rem;
     display: flex;
     align-items: center;
     margin-right: 2.2rem;
+    justify-content: space-between;
+}
+
+@media only screen and (min-width: 29.21em) and (max-width: 36.99em) {
+    .amount {
+        width: 7rem;
+        margin-right: 0;
+    }
+}
+
+@media only screen and (max-width: 29.2em) {
+    .amount {
+        width: 5rem;
+        margin-right: 0;
+    }
 }

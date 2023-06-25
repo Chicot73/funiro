@@ -1,4 +1,11 @@
 .basket-item__right {
     @include vert-c;
-    width: 32.1rem;
+    justify-content: flex-end;
+    width: 49%;
+}
+
+@media only screen and (max-width: 36.99em) {
+    .basket-item__right {
+        width: 26.1rem;
+    }
 }
