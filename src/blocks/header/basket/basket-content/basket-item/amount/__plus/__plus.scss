@@ -9,6 +9,8 @@
     padding-right: auto;
     padding-top: .05rem;
     margin-left: 1.1rem;
+    flex-shrink: 0;
+    user-select: none;
     &:active {
         @include green-bg;
     }
@@ -19,7 +21,6 @@
         width: 1.4rem;
         height: 1.4rem;
         @include font (700, 1.2rem, 90%);
-        flex-shrink: 0;
         margin-left: 0.5rem;
     }
 }

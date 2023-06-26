@@ -8,6 +8,8 @@
     padding-left: auto;
     padding-right: auto;
     margin-right: 1.1rem;
+    flex-shrink: 0;
+    user-select: none;
     &:active {
         @include red-bg;
     }
@@ -18,7 +20,6 @@
         width: 1.4rem;
         height: 1.4rem;
         @include font (700, 1.2rem, 90%);
-        flex-shrink: 0;
         margin-right: 0.5rem;
     }
 }

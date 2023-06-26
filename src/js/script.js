@@ -200,7 +200,6 @@ window.addEventListener('DOMContentLoaded', () => {
             if (findIndex !== -1) {
                 this.products.splice([findIndex], 1);
             } 
-            //this.products.splice(index, 1);
         }
        
         /* get cost() {
@@ -278,7 +277,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         cardAdd.addEventListener("click", (e) => {
             e.preventDefault();
-            
+            cartNum.classList.add("active");
             const card = e.target.closest(".card");
 
             const product = new Product(card);
@@ -433,7 +432,6 @@ window.addEventListener('DOMContentLoaded', () => {
         productsHTML.forEach((productHTML) => {
             basketСontent.appendChild(productHTML);
         });
-        //console.log(Array.from(Product));
         basketAmount.textContent = myCart.count;
         basketPrice.textContent = toCurrency(myCart.costFinal);
     };
@@ -449,84 +447,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
     basketClose.addEventListener("click", (e) => {
         e.preventDefault();
+        if (myCart.count == 0) {
+            cartNum.classList.remove("active");
+        };
         basketBack.classList.remove("active");
         body.style.overflow = 'scroll';
-        //location.reload(); //- перезагрузка страницы
+        //location.reload(); //- функция перезагрузки страницы
     });
-    
 
-
-    /* let cart = {
-        '111': {
-            "name" : "Pingky",
-            "desc" : "Cute bed set",
-            "count" :  1,
-            "price" :  7000000
-        }
-    };
-
-    document.addEventListener('click', (e) => {
-        console.log(e.target.classList);
-        if (e.target.classList.contains('amount__plus')) {
-            plusFunction(e.target.dataset.id);
-        }
-        if (e.target.classList.contains('amount__minus')) {
-            minusFunction(e.target.dataset.id);
-        }
-    })
-
-    //увеличение количества товара
-    const plusFunction (id) => {
-        cart[id]['count'] ++;
-        renderCart();
-    }
-
-    //уменьшение количества товара
-    const minusFunction (id) => {
-        if (cart[id]['count']-1 == 0) {
-            deleteFunction(id);
-            return true;
-        }
-        cart[id]['count'] --;
-        renderCart();
-    }
-
-    //удаление товара
-    const deleteFunction (id) => {
-        delete cart[id];
-        renderCart();
-    }
-    
-    const renderCart () => {
-        console.log(cart);
-    }
-
-    renderCart();
-
-    let basket_price = 0,
-    basketBtn = document.querySelector('.card__basket'),
-    nameTrgt = document.querySelector('.card__title'),
-    descTrgt = document.querySelector('.card__desc'),
-    priceTrgt = document.querySelector('.card__newprice'),
-    item = document.querySelector('.card__info'),
-    name = nameTrgt.textContent,
-    price = priceTrgt.textContent,
-    desc = descTrgt.textContent;
-
-    Basket = [];
-    basketBtn.forEach((name, price, desc) => {
-        basketBtn.addEventListener('click', () => {
-            Basket.push({name, price, desc});
-        });
+    window.addEventListener('load', (e) => { //- отловить событие перезагрузки страницы
+        basketBlockFill(e);
+        cartNum.classList.add("active");
+        if (myCart.count == 0) {
+            cartNum.classList.remove("active");
+        };
     });
-    function countBasketPrice() {
-        for (i=0; i<Basket.length; i++) { 
-            basket_price = basket_price + Basket[i].price;
-        }
-        return basket_price;
-    }
-    document.write('<h2>В корзине:</h2>');
-    for (i=0;i<Basket.length;i++){document.write(Basket[i].name + ' — ' + Basket[i].price +' руб</br>');}
-    document.write('</br><b>Стоимость заказа: '+countBasketPrice(Basket)+'</b>');  */
 
 });//начальная функция 
