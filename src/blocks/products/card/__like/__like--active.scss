@@ -1,7 +1,7 @@
-.card__like {
+.card__like--active {
     @include font (600, 1.5rem, 150%);
     @include white;
-    background: url('../img/main/products/like_ow.svg');
+    background: url('../img/main/products/like_ow_act.svg');
     background-repeat: no-repeat;
     padding-left: 2.6rem;
     background-position-x: 0; //от левого края блока

@@ -1,6 +1,6 @@
-.phone__img {
+.image {
     width: 1.5rem;
-    height: 1.5rem;
+    height: 1.8rem;
     margin-right: 1.3rem;
     & img {
         object-fit: contain;
@@ -8,9 +8,9 @@
 }
 
 @media only screen and (min-width: 37em) and (max-width: 62.49em) {
-    .phone__img {
+    .image {
         width: 1.4rem;
-        height: 1.4rem;
+        height: 1.7rem;
         margin-right: 1.2rem;
         & img {
             object-fit: contain;
@@ -19,9 +19,9 @@
 }
 
 @media only screen and (max-width: 36.99em) {
-    .phone__img {
+    .image {
         width: 1.6rem;
-        height: 1.6rem;
+        height: 2rem;
         margin-right: 1.5rem;
         & img {
             object-fit: contain;

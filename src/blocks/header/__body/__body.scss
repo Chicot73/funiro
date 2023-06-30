@@ -15,6 +15,7 @@
     & li a:hover {
         @include white;
         @include orange-bg;
+        text-decoration: none;
     }
 }
 

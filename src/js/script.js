@@ -152,14 +152,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 
+    
 
     //Корзина товаров  + + + + + + + + + + + + + + + + + + + + + + + + 
 
 
        //Преобразует строку в число, убирая точки
 
-    function toNum(str) {
-        //const num = Number(str.replace(/\./g, ""));
+       function toNum(str) {
         const num = Number(str.replace(/\D/g, ""));
         return num;
     }
@@ -194,6 +194,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }
         addProduct(product) {
             this.products.push(product);
+        }
+        addLikeitem(likeItem) {
+            this.products.push(likeItem);
         }
         removeProduct(product) {
             const findIndex = this.products.indexOf(product);
@@ -277,9 +280,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
         cardAdd.addEventListener("click", (e) => {
             e.preventDefault();
-            cartNum.classList.add("active");
             const card = e.target.closest(".card");
-
             const product = new Product(card);
             const savedCart = JSON.parse(localStorage.getItem("cart"));
             myCart.products = savedCart.products;
@@ -287,15 +288,21 @@ window.addEventListener('DOMContentLoaded', () => {
                 cardAdd.classList.remove("added");
                 let cardId = e.target.dataset.id;  // нахожу ID кнопки на карточке
                 let newArray = myCart.products.filter((product) => product.id !== cardId); // сравниваю ID нового продукта в корзине и ID карточки,
-                                                                                           // и получаю новый массив, без нажатого продукта
+                                                                                        // и получаю новый массив, без нажатого продукта
                 myCart.products = newArray; // обратно загоняю всё в старый массив
 
                 localStorage.setItem("cart", JSON.stringify(myCart));
-                cartNum.textContent = myCart.count; 
+                cartNum.textContent = myCart.count;
+                if (myCart.count == 0) {
+                    if (cartNum.classList.contains("active")) {
+                        cartNum.classList.remove("active");
+                    };
+                }; 
                 cardAdd.textContent = "Add to cart";
                 basketBlockFill();
             } else {
                 cardAdd.classList.add("added");
+                cartNum.classList.add("active");
                 myCart.addProduct(product);
                 localStorage.setItem("cart", JSON.stringify(myCart));
                 cartNum.textContent = myCart.count;
@@ -368,7 +375,7 @@ window.addEventListener('DOMContentLoaded', () => {
           itemPlus.classList.add("amount__plus");
           itemPlus.innerHTML = "&#43;";
       
-          let productPrice = document.createElement("div");
+          const productPrice = document.createElement("div");
           productPrice.classList.add("basket-item__price");
           productPrice.innerHTML = toCurrency(toNum(product.finalprice));
       
@@ -448,7 +455,9 @@ window.addEventListener('DOMContentLoaded', () => {
     basketClose.addEventListener("click", (e) => {
         e.preventDefault();
         if (myCart.count == 0) {
-            cartNum.classList.remove("active");
+            if (cartNum.classList.contains("active")) {
+                cartNum.classList.remove("active");
+            }
         };
         basketBack.classList.remove("active");
         body.style.overflow = 'scroll';
@@ -460,6 +469,306 @@ window.addEventListener('DOMContentLoaded', () => {
         cartNum.classList.add("active");
         if (myCart.count == 0) {
             cartNum.classList.remove("active");
+        };
+    });
+
+
+
+    
+
+
+
+    // Список Faavorites  + + + + + + + + + + + + + + + + + + + + + + + + 
+
+
+       //Преобразует строку в число, убирая точки
+
+/*        function toNum(str) {
+        const num = Number(str.replace(/\D/g, ""));
+        return num;
+    }
+
+       //Преобразует число в строку, со вставкой символа валют
+
+    function toCurrency(num) {
+        const format = new Intl.NumberFormat("en-EN", {
+          style: "currency",
+          currency: "IDR",
+          minimumFractionDigits: 0,
+        }).format(num);
+        return format;
+    }  */
+    
+        //Считываем все элементы корзины:
+
+    const favoritesAddArr = Array.from(document.querySelectorAll("#card_like")); //кнопка добавить в список /cardAddArr
+    const favoritesNum = document.querySelector("#favorites_num"); //счетчик списка /cartNum
+    const favorites = document.querySelector("#like");  //кнопка списка /cart
+
+
+        //Класс для корзины
+
+    class Like {
+        likeItems; //products
+        constructor() {
+            this.likeItems = [];
+        }
+        get count() {
+            return this.likeItems.length;
+        } 
+        addProduct(likeItem) {
+            this.likeItems.push(likeItem);
+        }
+        removeProduct(likeItem) {
+            const findIndex = this.likeItems.indexOf(likeItem);
+            if (findIndex !== -1) {
+                this.likeItems.splice([findIndex], 1);
+            } 
+        }
+
+       
+        /* get cost() {
+            const prices = this.products.map((product) => {
+                return toNum(product.price);
+            });
+            const sum = prices.reduce((acc, num) => {
+                return acc + num;
+            }, 0);
+            return sum; 
+        }    
+        get costFinal() {
+            const prices2 = this.likeItems.map((likeItem) => {
+                return toNum(likeItem.finalprice);
+            });
+            const sum2 = prices2.reduce((acc, num) => {
+                return acc + num;
+            }, 0);
+            return sum2;
+        }
+
+        /*     //Если нужно вычесть из цены скидку
+
+        get costDiscount() {
+            const prices = this.products.map((product) => {
+                return toNum(product.priceDiscount);
+            });
+            const sum = prices.reduce((acc, num) => {
+                return acc + num;
+            }, 0);
+            return sum;
+        }
+        get discount() {
+            return this.cost - this.costDiscount;
+        } */
+    }
+
+        //класс для одного товара
+    
+    class Item {
+        imageSrc;
+        name;
+        desc;
+        price;
+        finalprice;
+        id;
+        valie;
+        constructor(card) {
+            this.imageSrc = card.querySelector(".card__image").children[0].src;
+            this.name = card.querySelector(".card__title").innerText;
+            this.desc = card.querySelector(".card__desc").innerText;
+            this.price = card.querySelector(".card__newprice").innerText;
+            this.finalprice = card.querySelector(".card__newprice").innerText;
+            this.id = card.querySelector(".card__basket").dataset.id;
+            this.valie = 1;
+        }
+    };
+
+        //Создаем объект корзины и сохраняем его в localStorage
+
+    const myLike = new Like();
+
+    if (localStorage.getItem("like") == null) {
+        localStorage.setItem("like", JSON.stringify(myLike));
+    }
+
+    const savedLike = JSON.parse(localStorage.getItem("like"));
+    myLike.likeItems = savedLike.likeItems;
+    favoritesNum.textContent = myLike.count;
+    if (myLike.count == 0) {
+        if (favorites.children[0].classList.contains("user__like--active")) {
+            favorites.children[0].classList.remove("user__like--active");
+        };
+        favorites.children[0].classList.add("user__like--empty");
+    } 
+    else {
+        if (favorites.children[0].classList.contains("user__like--empty")) {
+            favorites.children[0].classList.remove("user__like--empty");
+        };
+        favorites.children[0].classList.add("user__like--active");
+    };
+
+
+        //Добавляем товар в корзину
+    
+    myLike.likeItems = favoritesAddArr.forEach((favoritesAdd) => {  //myCart.products = cardAddArr.forEach((cardAdd) => {
+
+        favoritesAdd.addEventListener("click", (e) => {
+            e.preventDefault();
+            const card = e.target.closest(".card"); 
+            const likeItem = new Item(card);
+            const savedLike = JSON.parse(localStorage.getItem("like"));
+            myLike.likeItems = savedLike.likeItems;
+            if (favoritesAdd.classList.contains("card__like--active")) {
+                favoritesAdd.classList.remove("card__like--active");
+                let likeId = e.target.dataset.id;  // нахожу ID кнопки на карточке  /let cardId
+                let newArray2 = myLike.likeItems.filter((likeItem) => likeItem.id !== likeId); // сравниваю ID нового продукта в корзине и ID карточки,
+                                                                                           // и получаю новый массив, без нажатого продукта
+                myLike.likeItems = newArray2; // обратно загоняю всё в старый массив
+
+                localStorage.setItem("like", JSON.stringify(myLike));
+                favoritesNum.textContent = myLike.count; 
+                if (myLike.count == 0) {
+                    if (favoritesNum.classList.contains("active")) {
+                        favoritesNum.classList.remove("active");
+                    };
+                    if (favorites.children[0].classList.contains("user__like--active")) {
+                        favorites.children[0].classList.remove("user__like--active");
+                    };
+                    favorites.children[0].classList.add("user__like--empty");
+                };
+                likeBlockFill();
+            } else {
+                favoritesAdd.classList.add("card__like--active");
+                favoritesNum.classList.add("active");
+                if (favorites.children[0].classList.contains("user__like--empty")) {
+                    favorites.children[0].classList.remove("user__like--empty");
+                };
+                favorites.children[0].classList.add("user__like--active");
+                myLike.addProduct(likeItem);
+                localStorage.setItem("like", JSON.stringify(myLike));
+                favoritesNum.textContent = myLike.count;
+            }; 
+            if (myLike.removeProduct(likeItem)) {
+                favoritesAdd.classList.remove("card__like--active");
+            }
+        });
+        //}, { once: true }); // если хочу отловить только первый клик
+    });
+
+
+        //Считываем все элементы поп-апа:
+
+    const favoritesBack = document.querySelector(".favorites__back"); //basketBack 
+    const favoritesClose = document.querySelector("#favorites_cross"); //basketClose
+    const favoritesСontent = document.querySelector("#favorites_content"); //basketСontent
+
+
+        //Заполнение корзины
+
+    function likeBlockFill() {
+        favoritesСontent.innerHTML = null;
+        const savedLike = JSON.parse(localStorage.getItem("like"));
+        myLike.likeItems = savedLike.likeItems;
+        const itemsHTML = myLike.likeItems.map((likeItem) => {  //const productsHTML
+          const likeItemOne = document.createElement("div");  //productItem
+          likeItemOne.classList.add("favorites-item");
+      
+          const likeItemWrap1 = document.createElement("div");
+          likeItemWrap1.classList.add("favorites-item__left");
+          const likeItemWrap2 = document.createElement("div");
+          likeItemWrap2.classList.add("favorites-item__right");
+      
+          const likeItemImage = document.createElement("img");
+          likeItemImage.classList.add("favorites-item__image");
+          likeItemImage.setAttribute("src", likeItem.imageSrc);
+      
+          const likeItemTitle = document.createElement("h6");
+          likeItemTitle.classList.add("favorites-item__title");
+          likeItemTitle.innerHTML = likeItem.name;
+
+          const likeItemDesc = document.createElement("p");
+          likeItemDesc.classList.add("favorites-item__desc");
+          likeItemDesc.innerHTML = likeItem.desc;
+      
+          const likeItemPrice = document.createElement("div");
+          likeItemPrice.classList.add("favorites-item__price");
+          likeItemPrice.innerHTML = likeItem.price;
+      
+          const likeitemBuy = document.createElement("button");
+          likeitemBuy.classList.add("favorites__buy");
+          likeitemBuy.innerHTML = "Add to cart";
+      
+          likeitemBuy.addEventListener("click", () => {
+                if (localStorage.getItem("cart") == null) {
+                    localStorage.setItem("cart", JSON.stringify(myCart));
+                };
+            
+                const savedCart = JSON.parse(localStorage.getItem("cart"));
+                myCart.products = savedCart.products;
+                myCart.addLikeitem(likeItem);
+                localStorage.setItem("cart", JSON.stringify(myCart));
+                cartNum.classList.add("active");
+                cartNum.textContent = myCart.count;    
+          });
+
+          const likeitemDelete = document.createElement("button");
+          likeitemDelete.classList.add("favorites-item__off");
+          likeitemDelete.innerHTML = "&#10006;";
+      
+          likeitemDelete.addEventListener("click", () => {
+                myLike.removeProduct(likeItem);
+                localStorage.setItem("like", JSON.stringify(myLike));
+                favoritesNum.textContent = myLike.count;
+                likeBlockFill();
+          });
+      
+          likeItemWrap1.appendChild(likeItemTitle);
+          likeItemWrap1.appendChild(likeItemDesc);
+          likeItemWrap2.appendChild(likeItemPrice);
+          likeItemWrap2.appendChild(likeitemBuy);
+          likeItemWrap2.appendChild(likeitemDelete);
+          likeItemOne.appendChild(likeItemImage);
+          likeItemOne.appendChild(likeItemWrap1);
+          likeItemOne.appendChild(likeItemWrap2);
+      
+          return likeItemOne;
+        });
+      
+        itemsHTML.forEach((itemHTML) => {
+            favoritesСontent.appendChild(itemHTML);
+        });
+    };
+
+    //Обработчики кнопки открытия и закрытия корзины:
+
+    favorites.addEventListener("click", (e) => {
+        e.preventDefault();
+        favoritesBack.classList.add("active");
+        body.style.overflow = 'hidden';
+        likeBlockFill();
+    });
+
+    favoritesClose.addEventListener("click", (e) => {
+        e.preventDefault();
+        if (myLike.count == 0) {
+            if (favoritesNum.classList.contains("active")) {
+                favoritesNum.classList.remove("active");
+            };
+            if (favorites.children[0].classList.contains("user__like--active")) {
+                favorites.children[0].classList.remove("user__like--active");
+            };
+            favorites.children[0].classList.add("user__like--empty");
+        };
+        favoritesBack.classList.remove("active");
+        body.style.overflow = 'scroll';
+        //location.reload(); //- функция перезагрузки страницы
+    });
+
+    window.addEventListener('load', (e) => { //- отловить событие перезагрузки страницы
+        likeBlockFill(e);
+        favoritesNum.classList.add("active");
+        if (myLike.count == 0) {
+            favoritesNum.classList.remove("active");
         };
     });
 

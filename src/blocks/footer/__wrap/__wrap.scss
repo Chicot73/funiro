@@ -3,9 +3,9 @@
     align-items: center;
     & a {
         display: block;
-        @include font (500, 1.6rem, 150%);
+        //@include font (500, 1.6rem, 150%);
         @include gray-2;
-        margin-bottom: 1.6rem;
+        margin-bottom: 1.6rem;    
     }
     & img {
         display: none;
@@ -37,7 +37,7 @@
         .footer__wrap {
             & a {
             display: block;
-            @include font (500, 1.8rem, 150%);
+            //@include font (500, 1.8rem, 150%);
             @include gray-2;
         }
         & img {

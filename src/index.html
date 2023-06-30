@@ -54,11 +54,12 @@
                     </label>
                 </div>
                 <div class="user">
-                    <div class="user__like">
-                        <img loading="lazy" src="img/header/like.svg" alt="">
-                        <div class="user__like--active">
-                            <img loading="lazy" src="img/header/like-active.svg" alt="">
-                        </div>
+                    <div class="user__like" id="like">
+                        <svg class="user__like--empty" viewBox="0 0 24 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M11.9996 19.0542C-8 8.00003 5.99999 -3.99997 11.9996 3.58809C18 -3.99997 32 8.00003 11.9996 19.0542Z" 
+                            />
+                        </svg>
+                        <div class="user__basket--amount" id="favorites_num">0</div>
                     </div>
                     <div class="user__basket" id="cart">
                         <img loading="lazy" src="img/header/basket.svg" alt="">
@@ -338,7 +339,7 @@
                                 <button class="card__basket" data-id="syltherine">Add to cart</button>
                                 <div class="card__socials">
                                     <button class="card__share">Share</button>
-                                    <button class="card__like" data-id="syltherine">Favorits</button>
+                                    <button class="card__like" id="card_like" data-id="syltherine">Favorites</button>
                                 </div>
                             </div>
                         </div>
@@ -358,7 +359,7 @@
                                 <button class="card__basket" data-id="leviosa">Add to cart</button>
                                 <div class="card__socials">
                                     <button class="card__share">Share</button>
-                                    <button class="card__like" data-id="leviosa">Favorits</button>
+                                    <button class="card__like" id="card_like" data-id="leviosa">Favorites</button>
                                 </div>
                             </div>
                         </div>
@@ -380,7 +381,7 @@
                                 <button class="card__basket" data-id="lolito">Add to cart</button>
                                 <div class="card__socials">
                                     <button class="card__share">Share</button>
-                                    <button class="card__like" data-id="lolito">Favorits</button>
+                                    <button class="card__like" id="card_like" data-id="lolito">Favorites</button>
                                 </div>
                             </div>
                         </div>
@@ -401,7 +402,7 @@
                                 <button class="card__basket" data-id="respira">Add to cart</button>
                                 <div class="card__socials">
                                     <button class="card__share">Share</button>
-                                    <button class="card__like" data-id="respira">Favorits</button>
+                                    <button class="card__like" id="card_like" data-id="respira">Favorites</button>
                                 </div>
                             </div>
                         </div>
@@ -421,7 +422,7 @@
                                 <button class="card__basket" data-id="grifo">Add to cart</button>
                                 <div class="card__socials">
                                     <button class="card__share">Share</button>
-                                    <button class="card__like" data-id="grifo">Favorits</button>
+                                    <button class="card__like" id="card_like" data-id="grifo">Favorites</button>
                                 </div>
                             </div>
                         </div>
@@ -442,7 +443,7 @@
                                 <button class="card__basket" data-id="muggo">Add to cart</button>
                                 <div class="card__socials">
                                     <button class="card__share">Share</button>
-                                    <button class="card__like" data-id="muggo">Favorits</button>
+                                    <button class="card__like" id="card_like" data-id="muggo">Favorites</button>
                                 </div>
                             </div>
                         </div>
@@ -464,7 +465,7 @@
                                 <button class="card__basket" data-id="pingky">Add to cart</button>
                                 <div class="card__socials">
                                     <button class="card__share">Share</button>
-                                    <button class="card__like" data-id="pingky">Favorits</button>
+                                    <button class="card__like" id="card_like" data-id="pingky">Favorites</button>
                                 </div>
                             </div>
                         </div>
@@ -485,7 +486,7 @@
                                 <button class="card__basket" data-id="potty">Add to cart</button>
                                 <div class="card__socials">
                                     <button class="card__share">Share</button>
-                                    <button class="card__like" data-id="potty">Favorits</button>
+                                    <button class="card__like" id="card_like" data-id="potty">Favorites</button>
                                 </div>
                             </div>
                         </div>
@@ -907,20 +908,20 @@
             <nav class="footer__wrapper">
                 <ul class="footer__items footer__funiro">
                     <div class="footer__title">Funiro.</div>
-                    <li class="footer__desc">Worldwide furniture store since 2020. We sell over 1000+ branded products on our website</li>
+                    <li class="footer__desc footer__info">Worldwide furniture store since 2020. We sell over 1000+ branded products on our website</li>
                     <li class="address">
-                        <div class="address__img">
+                        <div class="image">
                             <img loading="lazy" src="img/footer/address.svg" alt="">
                         </div>
                         <a class="footer__desc" href="https://goo.gl/maps/fyB1M59Z2VMXx2GE9">Sawojajar Malang, Indonesia</a>
                     </li>
                     <li class="phone">
-                        <div class="phone__img">
+                        <div class="image">
                             <img loading="lazy" src="img/footer/phone.svg" alt="">
                         </div>
                         <a class="footer__desc" href="tel:+62894563455">+6289 456 3455</a>
                     </li>
-                    <li class="footer__desc"><a href="#">www.funiro.com</a></li>
+                    <li class="footer__desc"><a href="http://igorbobyrev.ru/homeworks/funiro/">www.funiro.com</a></li>
                 </ul>
                 <ul class="footer__items footer__menu">
                     <div class="footer__title">Menu</div>

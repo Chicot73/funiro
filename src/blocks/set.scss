@@ -36,9 +36,12 @@ li {
   padding-left: 0;
 }
 
-a,
-a:hover {
+a {
   text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 input,

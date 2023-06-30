@@ -1,9 +1,11 @@
 .footer__items {
 
     & li, li a {
-        @include font (500, 1.6rem, 150%);
         @include gray-2;
         letter-spacing: 0.03em;
+        :hover {
+            font-style: initial;
+        }
     }
     & li:last-child {
         margin-bottom: 0;
@@ -19,13 +21,14 @@
     }
 }
 
+
 @media only screen and (max-width: 36.99em) {
     .footer__items {
-        @include font (700, 2.5rem, 125%);
+        //@include font (700, 2.5rem, 125%);
         margin-bottom: .7rem;
 
         & li, li a {
-            @include font (500, 1.8rem, 150%);
+            //@include font (500, 1.8rem, 150%);
             @include gray-2;
             letter-spacing: 0.03em;
         }

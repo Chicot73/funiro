@@ -1,24 +1,6 @@
 .user__like--active {
-    position: absolute;
-    width: 2.4rem;
-    height: 2.05rem;
-    flex-shrink: 0;
-    padding: 0;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    z-index: 2;
-    & img {
-        object-fit: contain;
-    }
+    width:26px; 
+    height:22px; 
+    fill: #E97171;
 }
 
-@media only screen and (max-width: 36.99em) {
-    .user__like--active {
-        width: 5.2rem;
-        height: 5.2rem;
-        padding: 1.4rem 1.4rem 1.3rem;
-        border-radius: 50%;
-        @include light-orange-bg;
-    }
-}
