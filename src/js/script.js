@@ -14,12 +14,17 @@ window.addEventListener('DOMContentLoaded', () => {
         navigation: {
             nextEl: '.introduce__next',
             prevEl: '.introduce__prev',
-          },
+        },
         pagination: {
             el: '.swiper-pagination',
             type: 'bullets',
             clickable: true
         },
+        autoplay: {
+            delay: 5000,
+            stopOnLastSlide: false,
+            disableOnInteraction: false
+        } 
     });
 
 
@@ -28,7 +33,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const slider2 = new Swiper('.slider-2', {
         loop: true,
         slidesPerView: 'auto',
-        //freeMode: false,
         initialSlide: 0,
         loopedSlides: 3,
         spaceBetween: 23,
@@ -58,7 +62,6 @@ window.addEventListener('DOMContentLoaded', () => {
     const slider3 = new Swiper('.slider-3', {
         loop: true,
         slidesPerView: 'auto',
-        //freeMode: false,
         initialSlide: 2,
         loopedSlides: 2,
         spaceBetween: 32,
@@ -139,7 +142,7 @@ window.addEventListener('DOMContentLoaded', () => {
         bodyM.style.overflow = 'scroll';
     });  
 
-    window.addEventListener('resize', (e) => { //чтобы не включалась анимация из "out" после скрипта
+    window.addEventListener('resize', (e) => { 
         if (menuMob.classList.contains('header__menu--out')) {
             menuMob.classList.remove('header__menu--out');
         }; 
@@ -157,14 +160,11 @@ window.addEventListener('DOMContentLoaded', () => {
     //Корзина товаров  + + + + + + + + + + + + + + + + + + + + + + + + 
 
 
-       //Преобразует строку в число, убирая точки
-
        function toNum(str) {
         const num = Number(str.replace(/\D/g, ""));
         return num;
     }
 
-       //Преобразует число в строку, со вставкой символа валют
 
     function toCurrency(num) {
         const format = new Intl.NumberFormat("en-EN", {
@@ -174,15 +174,12 @@ window.addEventListener('DOMContentLoaded', () => {
         }).format(num);
         return format;
     } 
-    
-        //Считываем все элементы корзины:
 
-    const cardAddArr = Array.from(document.querySelectorAll(".card__basket")); //кнопка добавить в корзину
-    const cartNum = document.querySelector("#cart_num"); //счетчик корзины
-    const cart = document.querySelector("#cart");  //кнопка корзины
+    const cardAddArr = Array.from(document.querySelectorAll(".card__basket")); 
+    const cartNum = document.querySelector("#cart_num"); 
+    const cart = document.querySelector("#cart");  
+    const body = document.body;
 
-
-        //Класс для корзины
 
     class Cart {
         products;
@@ -202,18 +199,10 @@ window.addEventListener('DOMContentLoaded', () => {
             const findIndex = this.products.indexOf(product);
             if (findIndex !== -1) {
                 this.products.splice([findIndex], 1);
-            } 
+            }
         }
-       
-        /* get cost() {
-            const prices = this.products.map((product) => {
-                return toNum(product.price);
-            });
-            const sum = prices.reduce((acc, num) => {
-                return acc + num;
-            }, 0);
-            return sum; 
-        }    */
+
+
         get costFinal() {
             const prices2 = this.products.map((product) => {
                 return toNum(product.finalprice);
@@ -223,24 +212,8 @@ window.addEventListener('DOMContentLoaded', () => {
             }, 0);
             return sum2;
         }
-
-        /*     //Если нужно вычесть из цены скидку
-
-        get costDiscount() {
-            const prices = this.products.map((product) => {
-                return toNum(product.priceDiscount);
-            });
-            const sum = prices.reduce((acc, num) => {
-                return acc + num;
-            }, 0);
-            return sum;
-        }
-        get discount() {
-            return this.cost - this.costDiscount;
-        } */
     }
 
-        //класс для одного товара
     
     class Product {
         imageSrc;
@@ -261,7 +234,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-        //Создаем объект корзины и сохраняем его в localStorage
 
     const myCart = new Cart();
 
@@ -274,67 +246,82 @@ window.addEventListener('DOMContentLoaded', () => {
     cartNum.textContent = myCart.count;
 
 
-        //Добавляем товар в корзину
     
     myCart.products = cardAddArr.forEach((cardAdd) => {
 
         cardAdd.addEventListener("click", (e) => {
+
             e.preventDefault();
             const card = e.target.closest(".card");
-            const product = new Product(card);
+            let product = new Product(card);
             const savedCart = JSON.parse(localStorage.getItem("cart"));
             myCart.products = savedCart.products;
-            if (cardAdd.classList.contains("added")) {
-                cardAdd.classList.remove("added");
-                let cardId = e.target.dataset.id;  // нахожу ID кнопки на карточке
-                let newArray = myCart.products.filter((product) => product.id !== cardId); // сравниваю ID нового продукта в корзине и ID карточки,
-                                                                                        // и получаю новый массив, без нажатого продукта
-                myCart.products = newArray; // обратно загоняю всё в старый массив
+            let cardId = e.target.dataset.id;  
 
+            if (cardAdd.classList.contains("added")) {
+                cardAdd.classList.remove("added");             
+                cardAdd.innerHTML = "Add to cart";
+
+                let newArray = myCart.products.filter((product) => product.id !== cardId); 
+                myCart.products = newArray; 
                 localStorage.setItem("cart", JSON.stringify(myCart));
                 cartNum.textContent = myCart.count;
                 if (myCart.count == 0) {
                     if (cartNum.classList.contains("active")) {
                         cartNum.classList.remove("active");
                     };
-                }; 
-                cardAdd.textContent = "Add to cart";
+                };
                 basketBlockFill();
             } else {
                 cardAdd.classList.add("added");
                 cartNum.classList.add("active");
-                myCart.addProduct(product);
-                localStorage.setItem("cart", JSON.stringify(myCart));
-                cartNum.textContent = myCart.count;
-                cardAdd.textContent = "Remove from cart";
+                cardAdd.innerHTML = "Remove from cart";
+
+                let index = myCart.products.findIndex(el => el.id === cardId);
+                if (index !== -1) {  
+
+                    let alertBlock = document.createElement("div");
+                    alertBlock.classList.add("favorites-alert__block");
+                    alertBlock.classList.add("active");
+                    alertBlock.innerHTML = 'Your item \"' + cardId + '\" has already been added to the cart';
+                    let alertButton = document.createElement("button");
+                    alertButton.classList.add("favorites-alert__button");
+                    alertButton.innerHTML = "OK";
+                    alertBlock.appendChild(alertButton);
+                    card.appendChild(alertBlock);
+                    body.style.overflow = 'hidden';
+
+                    alertButton.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        alertBlock.classList.remove("active");
+                        body.style.overflow = 'scroll';
+                        alertBlock = null;
+                    })
+
+                } else {
+                    myCart.addProduct(product);
+                    localStorage.setItem("cart", JSON.stringify(myCart));
+                    cartNum.textContent = myCart.count; 
+                }
             }; 
-            if (myCart.removeProduct(product)) {
-                cardAdd.classList.remove("added");
-                cardAdd.textContent = "Add to cart";
-            }
         });
-        //}, { once: true }); // если хочу отловить только первый клик
     });
 
 
-        //Считываем все элементы поп-апа:
-
     const basketBack = document.querySelector(".basket__back");
     const basketClose = document.querySelector("#basket_cross");
-    const body = document.body;
     const basketСontent = document.querySelector("#basket_content");
     const basketPrice = document.querySelector("#final_price");
     const basketAmount = document.querySelector("#items_amount");
     const itemAmount = document.querySelector("#item_amount");
 
 
-        //Заполнение корзины
-
     function basketBlockFill() {
         basketСontent.innerHTML = null;
         const savedCart = JSON.parse(localStorage.getItem("cart"));
         myCart.products = savedCart.products;
-        const productsHTML = myCart.products.map((product) => {
+
+        let productsHTML = myCart.products.map((product) => {
           const productItem = document.createElement("div");
           productItem.classList.add("basket-item");
       
@@ -385,6 +372,12 @@ window.addEventListener('DOMContentLoaded', () => {
       
           productDelete.addEventListener("click", () => {
                 myCart.removeProduct(product);
+                let index = cardAddArr.findIndex(el => el.dataset.id === product.id);
+                cardAdd = cardAddArr[index];
+                cardAdd.innerHTML = "Add to cart";
+                if (cardAdd.classList.contains("added")) {
+                    cardAdd.classList.remove("added");
+                } 
                 localStorage.setItem("cart", JSON.stringify(myCart));
                 cartNum.textContent = myCart.count;
                 basketBlockFill();
@@ -393,6 +386,12 @@ window.addEventListener('DOMContentLoaded', () => {
           itemMinus.addEventListener("click", () => {
                 if (product.valie-1 == 0) {
                     myCart.removeProduct(product);
+                    let index = cardAddArr.findIndex(el => el.dataset.id === product.id);
+                    cardAdd = cardAddArr[index];
+                    cardAdd.innerHTML = "Add to cart";
+                    if (cardAdd.classList.contains("added")) {
+                        cardAdd.classList.remove("added");
+                    }
                     localStorage.setItem("cart", JSON.stringify(myCart));
                     cartNum.textContent = myCart.count;
                     basketBlockFill();
@@ -432,18 +431,20 @@ window.addEventListener('DOMContentLoaded', () => {
           productWrap2.appendChild(productDelete);
           productItem.appendChild(productWrap1);
           productItem.appendChild(productWrap2);
-      
+
           return productItem;
+          
         });
       
         productsHTML.forEach((productHTML) => {
             basketСontent.appendChild(productHTML);
         });
+
+
         basketAmount.textContent = myCart.count;
         basketPrice.textContent = toCurrency(myCart.costFinal);
     };
 
-    //Обработчики кнопки открытия и закрытия корзины:
 
     cart.addEventListener("click", (e) => {
         e.preventDefault();
@@ -461,16 +462,17 @@ window.addEventListener('DOMContentLoaded', () => {
         };
         basketBack.classList.remove("active");
         body.style.overflow = 'scroll';
-        //location.reload(); //- функция перезагрузки страницы
     });
 
-    window.addEventListener('load', (e) => { //- отловить событие перезагрузки страницы
+    window.addEventListener('load', (e) => { 
         basketBlockFill(e);
+        
         cartNum.classList.add("active");
         if (myCart.count == 0) {
             cartNum.classList.remove("active");
         };
     });
+        
 
 
 
@@ -481,35 +483,17 @@ window.addEventListener('DOMContentLoaded', () => {
     // Список Faavorites  + + + + + + + + + + + + + + + + + + + + + + + + 
 
 
-       //Преобразует строку в число, убирая точки
+ 
 
-/*        function toNum(str) {
-        const num = Number(str.replace(/\D/g, ""));
-        return num;
-    }
+    const favoritesAddArr = Array.from(document.querySelectorAll("#card_like"));
+    const favoritesNum = document.querySelector("#favorites_num");
+    const favorites = document.querySelector("#like");  
+    const fav_alertBlock = document.querySelector("#favorites-alert_block"); 
+    const fav_alertClose = document.querySelector(".favorites-alert__button"); 
 
-       //Преобразует число в строку, со вставкой символа валют
-
-    function toCurrency(num) {
-        const format = new Intl.NumberFormat("en-EN", {
-          style: "currency",
-          currency: "IDR",
-          minimumFractionDigits: 0,
-        }).format(num);
-        return format;
-    }  */
-    
-        //Считываем все элементы корзины:
-
-    const favoritesAddArr = Array.from(document.querySelectorAll("#card_like")); //кнопка добавить в список /cardAddArr
-    const favoritesNum = document.querySelector("#favorites_num"); //счетчик списка /cartNum
-    const favorites = document.querySelector("#like");  //кнопка списка /cart
-
-
-        //Класс для корзины
 
     class Like {
-        likeItems; //products
+        likeItems; 
         constructor() {
             this.likeItems = [];
         }
@@ -525,44 +509,8 @@ window.addEventListener('DOMContentLoaded', () => {
                 this.likeItems.splice([findIndex], 1);
             } 
         }
-
-       
-        /* get cost() {
-            const prices = this.products.map((product) => {
-                return toNum(product.price);
-            });
-            const sum = prices.reduce((acc, num) => {
-                return acc + num;
-            }, 0);
-            return sum; 
-        }    
-        get costFinal() {
-            const prices2 = this.likeItems.map((likeItem) => {
-                return toNum(likeItem.finalprice);
-            });
-            const sum2 = prices2.reduce((acc, num) => {
-                return acc + num;
-            }, 0);
-            return sum2;
-        }
-
-        /*     //Если нужно вычесть из цены скидку
-
-        get costDiscount() {
-            const prices = this.products.map((product) => {
-                return toNum(product.priceDiscount);
-            });
-            const sum = prices.reduce((acc, num) => {
-                return acc + num;
-            }, 0);
-            return sum;
-        }
-        get discount() {
-            return this.cost - this.costDiscount;
-        } */
     }
 
-        //класс для одного товара
     
     class Item {
         imageSrc;
@@ -583,7 +531,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-        //Создаем объект корзины и сохраняем его в localStorage
 
     const myLike = new Like();
 
@@ -594,6 +541,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const savedLike = JSON.parse(localStorage.getItem("like"));
     myLike.likeItems = savedLike.likeItems;
     favoritesNum.textContent = myLike.count;
+    
     if (myLike.count == 0) {
         if (favorites.children[0].classList.contains("user__like--active")) {
             favorites.children[0].classList.remove("user__like--active");
@@ -608,9 +556,8 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
 
-        //Добавляем товар в корзину
     
-    myLike.likeItems = favoritesAddArr.forEach((favoritesAdd) => {  //myCart.products = cardAddArr.forEach((cardAdd) => {
+    myLike.likeItems = favoritesAddArr.forEach((favoritesAdd) => {  
 
         favoritesAdd.addEventListener("click", (e) => {
             e.preventDefault();
@@ -618,12 +565,13 @@ window.addEventListener('DOMContentLoaded', () => {
             const likeItem = new Item(card);
             const savedLike = JSON.parse(localStorage.getItem("like"));
             myLike.likeItems = savedLike.likeItems;
+            let likeId = e.target.dataset.id;  
+
             if (favoritesAdd.classList.contains("card__like--active")) {
                 favoritesAdd.classList.remove("card__like--active");
-                let likeId = e.target.dataset.id;  // нахожу ID кнопки на карточке  /let cardId
-                let newArray2 = myLike.likeItems.filter((likeItem) => likeItem.id !== likeId); // сравниваю ID нового продукта в корзине и ID карточки,
-                                                                                           // и получаю новый массив, без нажатого продукта
-                myLike.likeItems = newArray2; // обратно загоняю всё в старый массив
+
+                let newArray2 = myLike.likeItems.filter((likeItem) => likeItem.id !== likeId);
+                myLike.likeItems = newArray2; 
 
                 localStorage.setItem("like", JSON.stringify(myLike));
                 favoritesNum.textContent = myLike.count; 
@@ -640,37 +588,56 @@ window.addEventListener('DOMContentLoaded', () => {
             } else {
                 favoritesAdd.classList.add("card__like--active");
                 favoritesNum.classList.add("active");
-                if (favorites.children[0].classList.contains("user__like--empty")) {
-                    favorites.children[0].classList.remove("user__like--empty");
-                };
-                favorites.children[0].classList.add("user__like--active");
-                myLike.addProduct(likeItem);
-                localStorage.setItem("like", JSON.stringify(myLike));
-                favoritesNum.textContent = myLike.count;
+
+                let index = myLike.likeItems.findIndex(el => el.id === likeId);
+                if (index !== -1) {
+                    let alertBlock = document.createElement("div");
+                    alertBlock.classList.add("favorites-alert__block");
+                    alertBlock.classList.add("active");
+                    alertBlock.innerHTML = 'Your favorite item \"' + likeId + '\" has already been added to the favorites';
+                    let alertButton = document.createElement("button");
+                    alertButton.classList.add("favorites-alert__button");
+                    alertButton.innerHTML = "OK";
+                    alertBlock.appendChild(alertButton);
+                    card.appendChild(alertBlock);
+                    body.style.overflow = 'hidden';
+
+                    alertButton.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        alertBlock.classList.remove("active");
+                        body.style.overflow = 'scroll';
+                        alertBlock = null;
+                    })
+                } else {
+                    if (favorites.children[0].classList.contains("user__like--empty")) {
+                        favorites.children[0].classList.remove("user__like--empty");
+                    };
+                    favorites.children[0].classList.add("user__like--active");
+                    myLike.addProduct(likeItem);
+                    localStorage.setItem("like", JSON.stringify(myLike));
+                    favoritesNum.textContent = myLike.count;
+                }
             }; 
             if (myLike.removeProduct(likeItem)) {
                 favoritesAdd.classList.remove("card__like--active");
             }
         });
-        //}, { once: true }); // если хочу отловить только первый клик
     });
 
 
-        //Считываем все элементы поп-апа:
 
-    const favoritesBack = document.querySelector(".favorites__back"); //basketBack 
-    const favoritesClose = document.querySelector("#favorites_cross"); //basketClose
-    const favoritesСontent = document.querySelector("#favorites_content"); //basketСontent
+    const favoritesBack = document.querySelector(".favorites__back"); 
+    const favoritesClose = document.querySelector("#favorites_cross"); 
+    const favoritesСontent = document.querySelector("#favorites_content"); 
 
 
-        //Заполнение корзины
 
     function likeBlockFill() {
         favoritesСontent.innerHTML = null;
         const savedLike = JSON.parse(localStorage.getItem("like"));
         myLike.likeItems = savedLike.likeItems;
-        const itemsHTML = myLike.likeItems.map((likeItem) => {  //const productsHTML
-          const likeItemOne = document.createElement("div");  //productItem
+        const itemsHTML = myLike.likeItems.map((likeItem) => {  
+          const likeItemOne = document.createElement("div");  
           likeItemOne.classList.add("favorites-item");
       
           const likeItemWrap1 = document.createElement("div");
@@ -717,9 +684,15 @@ window.addEventListener('DOMContentLoaded', () => {
       
           likeitemDelete.addEventListener("click", () => {
                 myLike.removeProduct(likeItem);
+                let index = favoritesAddArr.findIndex(el => el.dataset.id === likeItem.id);
+                favoritesAdd = favoritesAddArr[index];
+                if (favoritesAdd.classList.contains("card__like--active")) {
+                    favoritesAdd.classList.remove("card__like--active");
+                }
                 localStorage.setItem("like", JSON.stringify(myLike));
                 favoritesNum.textContent = myLike.count;
                 likeBlockFill();
+
           });
       
           likeItemWrap1.appendChild(likeItemTitle);
@@ -739,7 +712,6 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    //Обработчики кнопки открытия и закрытия корзины:
 
     favorites.addEventListener("click", (e) => {
         e.preventDefault();
@@ -761,10 +733,10 @@ window.addEventListener('DOMContentLoaded', () => {
         };
         favoritesBack.classList.remove("active");
         body.style.overflow = 'scroll';
-        //location.reload(); //- функция перезагрузки страницы
+
     });
 
-    window.addEventListener('load', (e) => { //- отловить событие перезагрузки страницы
+    window.addEventListener('load', (e) => {
         likeBlockFill(e);
         favoritesNum.classList.add("active");
         if (myLike.count == 0) {

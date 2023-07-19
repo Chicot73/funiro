@@ -1,8 +1,14 @@
 .introduce__title {
-    @include font (700, 4.7rem, 120%);
+    @include font (700, 4.5rem, 120%);
     @include gray-1;
     margin-bottom: 2.4rem;
     letter-spacing: -0.01em;
+}
+
+@media only screen and (min-width: 62.5em) and (max-width: 76.875em) {
+    .introduce__title {
+        @include font (700, 4rem, 120%);
+    }
 }
 
 @media only screen and (min-width: 37em) and (max-width: 62.49em) {

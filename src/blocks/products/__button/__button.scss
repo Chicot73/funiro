@@ -10,6 +10,9 @@
     margin-bottom: 9rem;
     margin-left: auto;
     margin-right: auto;
+    &:hover {
+        border: 0.2rem solid #E89F71;
+    } 
 }
 
 @media only screen and (min-width: 37em) and (max-width: 62.49em) {

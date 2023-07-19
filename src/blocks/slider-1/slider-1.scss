@@ -53,12 +53,45 @@
 }
 .slider-1 .swiper-slide-active .slider-1__product {
     display: block;
+    left: 66rem;
+    opacity: 1;
+    animation: productanimate .6s;
+    animation-timing-function: ease-out;
+    @keyframes productanimate {
+
+        from {
+            left: 86rem;
+            opacity: 0;
+        }
+        to { 
+            left: 66rem;
+            opacity: 1;
+        }
+    }
 }
 
 @media only screen and (min-width: 62.5em) and (max-width: 76.875em) { 
     .slider-1 {
         .swiper-pagination {
             padding-left: 8.4rem;
+        }
+    }
+    .slider-1 .swiper-slide-active .slider-1__product {
+        display: block;
+        left: 62rem;
+        opacity: 1;
+        animation: productanimate .6s;
+        animation-timing-function: ease-out;
+        @keyframes productanimate {
+    
+            from {
+                left: 86rem;
+                opacity: 0;
+            }
+            to { 
+                left: 62rem;
+                opacity: 1;
+            }
         }
     }
 }
@@ -84,6 +117,24 @@
                 position: absolute;
                 width: 2.3rem;
                 height: 2.3rem;
+            }
+        }
+    }
+    .slider-1 .swiper-slide-active .slider-1__product {
+        display: block;
+        left: 60rem;
+        opacity: 1;
+        animation: productanimate .6s;
+        animation-timing-function: ease-out;
+        @keyframes productanimate {
+    
+            from {
+                left: 86rem;
+                opacity: 0;
+            }
+            to { 
+                left: 60rem;
+                opacity: 1;
             }
         }
     }

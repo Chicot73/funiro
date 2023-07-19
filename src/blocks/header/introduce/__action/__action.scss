@@ -6,6 +6,13 @@
     backdrop-filter: blur(14px);
 }
 
+@media only screen and (min-width: 62.5em) and (max-width: 76.875em) {
+    .introduce__action {
+        padding: 2.8rem 3.8rem 3.8rem;
+        width: 33.1rem;
+    }
+}
+
 @media only screen and (min-width: 43em) and (max-width: 62.49em) {
     .introduce__action {
         width: 29.7rem;

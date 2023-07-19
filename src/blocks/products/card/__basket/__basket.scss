@@ -7,6 +7,9 @@
     letter-spacing: 0.03em;
     width: 100%;
     text-align: center;
-    border: 1px solid #FFFFFF;
+    border: 0.1rem solid #FFFFFF;
     margin-bottom: 2.2rem;
+    &:hover {
+        border: 0.1rem solid #E89F71;
+    } 
 }
