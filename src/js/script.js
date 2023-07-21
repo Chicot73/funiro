@@ -629,6 +629,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const favoritesBack = document.querySelector(".favorites__back"); 
     const favoritesClose = document.querySelector("#favorites_cross"); 
     const favoritesСontent = document.querySelector("#favorites_content"); 
+    const container = document.querySelector(".container");
 
 
 
@@ -675,7 +676,33 @@ window.addEventListener('DOMContentLoaded', () => {
                 myCart.addLikeitem(likeItem);
                 localStorage.setItem("cart", JSON.stringify(myCart));
                 cartNum.classList.add("active");
-                cartNum.textContent = myCart.count;    
+                cartNum.textContent = myCart.count;
+                let alertBlock = document.createElement("div");
+                alertBlock.classList.add("favorites-alert__block2");
+                alertBlock.classList.add("active");
+                alertBlock.innerHTML = 'Your item \"' + likeItemTitle.innerHTML + '\" has already been added to the cart';
+                let alertButton = document.createElement("button");
+                alertButton.classList.add("favorites-alert__button");
+                alertButton.innerHTML = "OK";
+                alertBlock.appendChild(alertButton);
+                container.appendChild(alertBlock);
+                body.style.overflow = 'hidden';
+                myLike.removeProduct(likeItem);
+                let index = favoritesAddArr.findIndex(el => el.dataset.id === likeItem.id);
+                favoritesAdd = favoritesAddArr[index];
+                if (favoritesAdd.classList.contains("card__like--active")) {
+                    favoritesAdd.classList.remove("card__like--active");
+                }
+                localStorage.setItem("like", JSON.stringify(myLike));
+                favoritesNum.textContent = myLike.count;
+                likeBlockFill();
+
+                alertButton.addEventListener("click", (e) => {
+                    e.preventDefault();
+                    alertBlock.classList.remove("active");
+                    body.style.overflow = 'scroll';
+                    alertBlock = null;
+                })    
           });
 
           const likeitemDelete = document.createElement("button");
